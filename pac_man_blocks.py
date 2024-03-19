@@ -1,8 +1,10 @@
 import pygame
+import random
 
 
 class Block:
     typ = None
+    current_step = 0
 
     def __init__(self, screen, size):
         self.screen = screen
@@ -14,6 +16,8 @@ class Block:
         pygame.draw.rect(self.surface, "White", (0, 0, self.size, self.size))
 
     def draw(self, x, y):
+        self.x = x
+        self.y = y
         pos_x = self.size * x
         pos_y = self.size * y
         self.screen.blit(self.surface, (pos_x, pos_y))
@@ -49,3 +53,15 @@ class Pacman(Block):
         center = int(self.size / 2)
         radius = int(self.size / 3)
         pygame.draw.circle(self.surface, 'Orange', (center, center), radius=radius)
+
+
+class Enemy(Block):
+    typ = "E"
+    colors = ['Green', 'Red', 'Yellow']
+
+    def shape(self):
+        color = random.choice(self.colors)
+        size = int(self.size / 2)
+        x = 0 + int(size / 2)
+        y = 0 + int(size / 2)
+        pygame.draw.rect(self.surface, color, (x, y, size, size), border_radius=3)
