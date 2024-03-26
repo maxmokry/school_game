@@ -71,6 +71,8 @@ class Pacman(Block):
 class Enemy(Block):
     typ = "E"
     colors = ['Green', 'Red', 'Yellow']
+    prev_block = ' '
+    direction = None
 
     def shape(self):
         color = random.choice(self.colors)
@@ -78,3 +80,17 @@ class Enemy(Block):
         x = 0 + int(size / 2)
         y = 0 + int(size / 2)
         pygame.draw.rect(self.surface, color, (x, y, size, size), border_radius=3)
+
+    def random_direction(self):
+        self.direction = random.choice(['left', 'right', 'up', 'down'])
+
+    def is_moving(self, max_steps):
+        if self.current_step == 0:
+            return False
+        else:
+            self.current_step += 1
+            if self.current_step >= max_steps:
+                self.current_step = 0
+                return False
+            return True
+

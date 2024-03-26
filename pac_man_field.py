@@ -4,7 +4,7 @@ from pac_man_blocks import Wall, Space, Pacman, Cookie, Block, Enemy
 class Field:
     pacman_pos_x = None
     pacman_pos_y = None
-    move_steps = 50
+    move_steps = 150
     current_step = 0
     max_x = None
     max_y = None
@@ -90,3 +90,41 @@ class Field:
                 self.pacman.dead()
                 return False
         return True
+
+    def enemy_move(self, enemy: Enemy):
+        if not enemy.direction:
+            enemy.random_direction()
+        direction = enemy.direction
+        destination_x = enemy.x
+        destination_y = enemy.y
+        if direction == 'left':
+            destination_x = enemy.x - 1
+            if destination_x < 0:
+                destination_x = self.max_x
+        if direction == 'right':
+            destination_x = enemy.x + 1
+            if destination_x > self.max_x:
+                destination_x = 0
+        if direction == 'up':
+            destination_y = enemy.y - 1
+            if destination_y < 0:
+                destination_y = self.max_y
+        if direction == 'down':
+            destination_y = enemy.y + 1
+            if destination_y > self.max_y:
+                destination_y = 0
+
+        destination_block: Block = self.map[destination_y][destination_x]
+        if destination_block.typ in [' ', 'S', 'P']:
+            self.map[enemy.y][enemy.x] = self.blocks[enemy.prev_block](self.screen, self.size)
+            enemy.prev_block = destination_block.typ
+            self.map[destination_y][destination_x] = enemy
+            enemy.current_step = 1
+        else:
+            enemy.random_direction()
+
+    def enemies_move(self):
+        for enemy in self.enemies:
+            if not enemy.is_moving(self.move_steps):
+                self.enemy_move(enemy)
+

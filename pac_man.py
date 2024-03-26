@@ -15,7 +15,7 @@ screen = pygame.display.set_mode((width, height))
 running = True
 
 field = Field(source_map, screen, block_size)
-
+field.draw()
 while running:
 
     keys = pygame.key.get_pressed()
@@ -29,6 +29,7 @@ while running:
             field.pacman_move('up')
         elif keys[pygame.K_DOWN]:
             field.pacman_move('down')
+    field.enemies_move()
 
     field.draw()
     pygame.display.update()

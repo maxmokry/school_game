@@ -7,6 +7,6 @@ source_map = [
     "XX X X XXX",
     "    EX XXX",
     "XX XXX XXX",
-    " X XXX    ",
+    " X XXX E  ",
     "   XXXXXXX",
 ]
