@@ -1,19 +1,8 @@
 import pygame
 import sys
 from pac_man_field import Field
+from pac_man_map import source_map
 
-source_map = [
-    "XXXXXXXXXX",
-    "XP       X",
-    "XX XXXXXXX",
-    "XX X   XXX",
-    "XX X X XXX",
-    "XX X X XXX",
-    "    EX XXX",
-    "XX XXX XXX",
-    " X XXX    ",
-    "   XXXXXXX",
-]
 
 # Pygame initialization
 pygame.init()
@@ -42,8 +31,8 @@ while running:
             field.pacman_move('down')
 
     field.draw()
-
     pygame.display.update()
+    running = field.intersect()
 
     # Game quit
     for event in pygame.event.get():

@@ -70,7 +70,7 @@ class Field:
                 destination_y = 0
 
         destination_block: Block = self.map[destination_y][destination_x]
-        if destination_block.typ in [' ', 'S']:
+        if destination_block.typ in [' ', 'S', 'E']:
             self.map[self.pacman.y][self.pacman.x] = self.blocks['S'](self.screen, self.size)
             self.map[destination_y][destination_x] = self.pacman
             self.pacman.current_step = 1
@@ -83,3 +83,10 @@ class Field:
             if self.pacman.current_step >= self.move_steps:
                 self.pacman.current_step = 0
             return True
+
+    def intersect(self):
+        for enemy in self.enemies:
+            if enemy.x == self.pacman.x and enemy.y == self.pacman.y:
+                self.pacman.dead()
+                return False
+        return True

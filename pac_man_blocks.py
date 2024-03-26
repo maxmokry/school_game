@@ -49,10 +49,23 @@ class Space(Block):
 class Pacman(Block):
     typ = 'P'
 
-    def shape(self):
-        center = int(self.size / 2)
-        radius = int(self.size / 3)
+    def shape(self, size=None):
+        if size is None:
+            size = self.size
+        center = int(size / 2)
+        radius = int(size / 3)
         pygame.draw.circle(self.surface, 'Orange', (center, center), radius=radius)
+
+    def dead(self):
+        size = self.size
+        for i in range(10):
+            size += 10
+            self.surface = pygame.Surface((size, size))
+            self.shape(size)
+            x = self.x
+            y = self.y
+            self.draw(x, y)
+            pygame.display.update()
 
 
 class Enemy(Block):
