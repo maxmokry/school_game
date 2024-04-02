@@ -1,5 +1,6 @@
 import pygame
 import random
+import datetime
 
 
 class Block:
@@ -11,6 +12,7 @@ class Block:
         self.size = size
         self.surface = pygame.Surface((size, size))
         self.shape()
+        self.create_time = datetime.datetime.now()
 
     def shape(self):
         pygame.draw.rect(self.surface, "White", (0, 0, self.size, self.size))
@@ -48,6 +50,7 @@ class Space(Block):
 
 class Pacman(Block):
     typ = 'P'
+    score = 0
 
     def shape(self, size=None):
         if size is None:

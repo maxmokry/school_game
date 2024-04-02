@@ -11,6 +11,7 @@ pygame.init()
 block_size = 40
 width = block_size * len(source_map[0])
 height = block_size * len(source_map)
+# height += block_size
 screen = pygame.display.set_mode((width, height))
 running = True
 

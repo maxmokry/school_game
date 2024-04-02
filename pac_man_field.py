@@ -1,3 +1,6 @@
+import pygame
+import datetime
+
 from pac_man_blocks import Wall, Space, Pacman, Cookie, Block, Enemy
 
 
@@ -10,7 +13,7 @@ class Field:
     max_y = None
     enemies = []
 
-    def __init__(self, source_map, screen, size):
+    def __init__(self, source_map, screen: pygame.Surface, size):
         self.screen = screen
         self.size = size
         self.pacman = None
@@ -45,9 +48,21 @@ class Field:
         for row in self.map:
             x = 0
             for block in row:
+                # if block.typ == 'S' and (datetime.datetime.today() - block.create_time) > datetime.timedelta(seconds=5):
+                #     block = Cookie(self.screen, self.size)
                 block.draw(x, y)
                 x += 1
             y += 1
+        # score = self.score()
+        # self.screen.blit(score, (0, y * self.size))
+
+    def score(self):
+        pygame.font.init()
+        my_font = pygame.font.SysFont("Helvetica", 30)
+        text = my_font.render(f"Score: {self.pacman.score}", True, "White")
+        surface = pygame.Surface((self.size * len(self.map[0]), self.size))
+        surface.blit(text, (0, 0))
+        return surface
 
     def pacman_move(self, direction):
         destination_x = self.pacman.x
@@ -71,6 +86,8 @@ class Field:
 
         destination_block: Block = self.map[destination_y][destination_x]
         if destination_block.typ in [' ', 'S', 'E']:
+            # if destination_block.typ == ' ':
+            #     self.pacman.score += 1
             self.map[self.pacman.y][self.pacman.x] = self.blocks['S'](self.screen, self.size)
             self.map[destination_y][destination_x] = self.pacman
             self.pacman.current_step = 1
