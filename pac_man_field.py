@@ -48,13 +48,13 @@ class Field:
         for row in self.map:
             x = 0
             for block in row:
-                # if block.typ == 'S' and (datetime.datetime.today() - block.create_time) > datetime.timedelta(seconds=5):
-                #     block = Cookie(self.screen, self.size)
+                if block.typ == 'S' and (datetime.datetime.today() - block.create_time) > datetime.timedelta(seconds=5):
+                    block = Cookie(self.screen, self.size)
                 block.draw(x, y)
                 x += 1
             y += 1
-        # score = self.score()
-        # self.screen.blit(score, (0, y * self.size))
+        score = self.score()
+        self.screen.blit(score, (0, y * self.size))
 
     def score(self):
         pygame.font.init()
@@ -86,8 +86,8 @@ class Field:
 
         destination_block: Block = self.map[destination_y][destination_x]
         if destination_block.typ in [' ', 'S', 'E']:
-            # if destination_block.typ == ' ':
-            #     self.pacman.score += 1
+            if destination_block.typ == ' ':
+                self.pacman.score += 1
             self.map[self.pacman.y][self.pacman.x] = self.blocks['S'](self.screen, self.size)
             self.map[destination_y][destination_x] = self.pacman
             self.pacman.current_step = 1
@@ -112,6 +112,34 @@ class Field:
         if not enemy.direction:
             enemy.random_direction()
         direction = enemy.direction
+        # test_destinations = []
+        # if direction in ['left', 'right']:
+        #     y = enemy.y + 1
+        #     if y > self.max_y:
+        #         y = 0
+        #     test_destinations.append([y, enemy.x])
+        #     y = enemy.y - 1
+        #     if y < 0:
+        #         y = self.max_y
+        #     test_destinations.append([y, enemy.x])
+        # if direction in ['up', 'down']:
+        #     x = enemy.x + 1
+        #     if x > self.max_x:
+        #         x = 0
+        #     test_destinations.append([enemy.y, x])
+        #     x = enemy.x - 1
+        #     if x < 0:
+        #         x = self.max_x
+        #     test_destinations.append([enemy.y, x])
+        # change_direction = False
+        # for coord in test_destinations:
+        #     destination_block: Block = self.map[coord[0]][coord[1]]
+        #     if destination_block.typ in [' ', 'S', 'P']:
+        #         change_direction = True
+        # if change_direction:
+        #     enemy.random_direction(primary=direction)
+        #     direction = enemy.direction
+
         destination_x = enemy.x
         destination_y = enemy.y
         if direction == 'left':

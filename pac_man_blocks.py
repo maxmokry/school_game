@@ -84,8 +84,17 @@ class Enemy(Block):
         y = 0 + int(size / 2)
         pygame.draw.rect(self.surface, color, (x, y, size, size), border_radius=3)
 
-    def random_direction(self):
-        self.direction = random.choice(['left', 'right', 'up', 'down'])
+    def random_direction(self, primary=None):
+        avail_directions = ['left', 'right', 'up', 'down']
+        # if primary == 'left':
+        #     avail_directions.remove('right')
+        # elif primary == 'right':
+        #     avail_directions.remove('left')
+        # elif primary == 'up':
+        #     avail_directions.remove('down')
+        # elif primary == 'down':
+        #     avail_directions.remove('up')
+        self.direction = random.choice(avail_directions)
 
     def is_moving(self, max_steps):
         if self.current_step == 0:
